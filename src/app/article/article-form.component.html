@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>標題</mat-label>
+    <input matInput formControlName="title" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>內容</mat-label>
+    <textarea matInput formControlName="content" rows="5"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>標籤 (用逗號分隔)</mat-label>
+    <input
+      matInput
+      formControlName="tags"
+      (change)="form.get('tags')?.setValue($event.target.value.split(','))"
+    />
+  </mat-form-field>
+
+  <mat-radio-group formControlName="status">
+    <mat-radio-button value="draft">草稿</mat-radio-button>
+    <mat-radio-button value="published">發佈</mat-radio-button>
+  </mat-radio-group>
+
+  <button mat-raised-button color="primary" type="submit">
+    {{ isEdit ? '更新文章' : '建立文章' }}
+  </button>
+</form>
