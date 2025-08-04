@@ -1,0 +1,26 @@
+.article-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.search-bar {
+  margin: 16px 0;
+  width: 300px;
+  display: block;
+}
+
+.mat-elevation-z8 {
+  margin-top: 16px;
+}
+
+mat-paginator {
+  margin-top: 12px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,11 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 24px auto;
+}
+
+mat-form-field, mat-radio-group {
+  width: 100%;
+}

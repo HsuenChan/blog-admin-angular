@@ -31,9 +31,9 @@ body {
   font: var(--mat-sys-body-medium);
 
   // Reset the user agent margin.
-  margin: 0;
+  margin: 20px;
 }
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
