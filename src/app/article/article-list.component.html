@@ -1,6 +1,9 @@
 <div class="list-header">
   <h2>文章列表</h2>
-  <button mat-raised-button color="primary" (click)="onCreate()">新增文章</button>
+  <button mat-raised-button color="primary" (click)="onCreate()">
+    <mat-icon>add</mat-icon>
+    新增文章
+  </button>
 </div>
 <mat-form-field appearance="outline" class="search-bar">
   <mat-label>Search</mat-label>
@@ -12,19 +15,21 @@
   <!-- Title Column -->
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef> Article </th>
-    <td mat-cell *matCellDef="let article"> {{article.title}} </td>
+    <td mat-cell *matCellDef="let article" class="max-w-xs">
+      <div class="truncate">{{ article.title }} </div>
+    </td>
   </ng-container>
 
   <!-- Author Column -->
   <ng-container matColumnDef="author">
     <th mat-header-cell *matHeaderCellDef> Author </th>
-    <td mat-cell *matCellDef="let article"> {{article.author}} </td>
+    <td mat-cell *matCellDef="let article"> {{ article.author }} </td>
   </ng-container>
 
   <!-- Created Date Column -->
   <ng-container matColumnDef="createdAt">
     <th mat-header-cell *matHeaderCellDef> Created At </th>
-    <td mat-cell *matCellDef="let article"> {{article.createdAt | date:'yyyy/MM/dd'}} </td>
+    <td mat-cell *matCellDef="let article"> {{ article.createdAt | date:'yyyy/MM/dd' }} </td>
   </ng-container>
 
   <!-- Actions Column -->
@@ -32,17 +37,25 @@
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let article">
       <button mat-button matButton="filled" color="primary" (click)="onEdit(article.id)">Edit</button>
-      <button mat-button matButton="tonal" (click)="onDelete(article.id)">Delete</button>
+      <button mat-button matButton="tonal" class="ml-2" (click)="onDelete(article)" [disabled]="article?.id === deletingId">
+        <span *ngIf="article?.id !== deletingId">Delete</span>
+        <span *ngIf="article?.id === deletingId" class="flex items-center gap-x-2">
+          <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+        </span>
+      </button>
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
+<div *ngIf="!isTableLoading && dataSource.data?.length === 0" class="p-4 text-center text-gray-500">
+  目前沒有資料
+</div>
+<mat-spinner *ngIf="isTableLoading" diameter="50"></mat-spinner>
 <mat-paginator
   [length]="dataSource.data.length"
-  [pageSize]="5"
+  [pageSize]="10"
   showFirstLastButtons
   [pageSizeOptions]="[5, 10, 20]">
 </mat-paginator>

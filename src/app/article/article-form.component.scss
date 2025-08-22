@@ -9,3 +9,15 @@ form {
 mat-form-field, mat-radio-group {
   width: 100%;
 }
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-x-2 {
+  gap: 8px;
+}
