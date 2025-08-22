@@ -1,4 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="flex gap-x-2 items-center">
+  <button matIconButton (click)="onBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2>新增文章</h2>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" [class.pointer-events-none]="isSubmitting">
   <mat-form-field appearance="outline">
     <mat-label>標題</mat-label>
     <input matInput formControlName="title" required />
@@ -21,9 +27,14 @@
   <mat-radio-group formControlName="status">
     <mat-radio-button value="draft">草稿</mat-radio-button>
     <mat-radio-button value="published">發佈</mat-radio-button>
+    <mat-radio-button value="unpublished">不發佈</mat-radio-button>
   </mat-radio-group>
 
-  <button mat-raised-button color="primary" type="submit">
-    {{ isEdit ? '更新文章' : '建立文章' }}
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isSubmitting">
+    <span *ngIf="!isSubmitting">{{ isEdit ? '更新文章' : '建立文章' }}</span>
+    <span *ngIf="isSubmitting" class="flex items-center gap-x-2">
+      <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+      處理中...
+    </span>
   </button>
 </form>
