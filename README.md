@@ -274,7 +274,7 @@ Testing and environment configuration are not implemented yet. Below is the curr
 
 ## 📜 Meta
 
-![License](https://img.shields.io/badge/License-MIT-green)
+[![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 ![Made with Angular](https://img.shields.io/badge/Made%20with-Angular-red)
 ![Made with Markdown](https://img.shields.io/badge/Docs-Markdown-1f425f.svg)
 
