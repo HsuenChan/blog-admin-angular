@@ -1,5 +1,14 @@
 # BlogAdminAngular · 部落格後台（Angular）
 
+![Angular](https://img.shields.io/badge/Angular-v20.1.4-dd0031?logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-007ACC?logo=typescript&logoColor=white)
+![RxJS](https://img.shields.io/badge/RxJS-7.x-B7178C?logo=reactivex&logoColor=white)
+![Angular Material](https://img.shields.io/badge/Angular%20Material-UI-blue?logo=angular&logoColor=white)
+
+![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-222222?logo=githubpages&logoColor=white)
+![CI/CD](https://img.shields.io/badge/CI-CD%2FDeploy-blue?logo=githubactions&logoColor=white)
+
+
 **Live Demo｜展示網站**  
 https://hsuenchan.github.io/blog-admin-angular/
 
@@ -260,3 +269,13 @@ Testing and environment configuration are not implemented yet. Below is the curr
 
 - Angular CLI Overview & Command Reference  
   https://angular.dev/tools/cli
+
+---
+
+## 📜 Meta
+
+![License](https://img.shields.io/badge/License-MIT-green)
+![Made with Angular](https://img.shields.io/badge/Made%20with-Angular-red)
+![Made with Markdown](https://img.shields.io/badge/Docs-Markdown-1f425f.svg)
+
+
