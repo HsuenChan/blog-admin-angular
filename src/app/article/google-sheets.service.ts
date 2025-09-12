@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Article } from './article.model';
+
+const DEFAULT_SHEET = 'article';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +15,7 @@ export class GoogleSheetsService {
   private apiKey = 'AIzaSyCWlS3auqgd0wJaT8dTR2p_dXjA5kBkTjk'; // google API Key
   private baseUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
   private appsScriptUrl = 'https://script.google.com/macros/s/AKfycbzwPYot9J9EbCdHrXH3X5MIVXmGfMgi0IUeiCgaemvxoHfZG0xa7akv3HLaSkT_f00K/exec'; // App Script URL
+
   constructor(private http: HttpClient) {}
 
   // 取得資料 (GET)
@@ -47,8 +51,9 @@ export class GoogleSheetsService {
     sheetName?: string;
   }): Observable<any> {
     const form = new FormData();
+    form.append('action', 'append');
     form.append('spreadsheetId', this.spreadsheetId);
-    form.append('sheetName', payload.sheetName ?? 'article');
+    form.append('sheetName', payload.sheetName ?? DEFAULT_SHEET);
     form.append('id', String(payload.id));
     form.append('title', payload.title);
     form.append('author', payload.author);
@@ -67,10 +72,49 @@ export class GoogleSheetsService {
     const form = new FormData();
     form.append('action', 'delete');
     form.append('spreadsheetId', this.spreadsheetId);
-    form.append('sheetName', payload.sheetName ?? 'article');
+    form.append('sheetName', payload.sheetName ?? DEFAULT_SHEET);
     form.append('id', String(payload.id));
 
     return this.http.post(this.appsScriptUrl, form);
   }
+
+   // 取得單筆
+  getById(id: string | number, sheetName = DEFAULT_SHEET): Observable<any> {
+    const body = new URLSearchParams();
+    body.set('action', 'getById');
+    body.set('id', String(id));
+    body.set('sheetName', sheetName);
+
+    return this.http.post<any>(this.appsScriptUrl, body.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
+    });
+  }
+
+  // 更新單筆
+  update(id: number | string, payload: Partial<Article>, sheetName = DEFAULT_SHEET): Observable<any> {
+    const body = new URLSearchParams();
+    body.set('action', 'update');
+    body.set('id', String(id));
+    body.set('sheetName', sheetName);
+
+    if (payload.title !== undefined) body.set('title', String(payload.title));
+    if (payload.content !== undefined) body.set('content', String(payload.content));
+    if (payload.status !== undefined) body.set('status', String(payload.status));
+    if (payload.author !== undefined) body.set('author', String(payload.author));
+    if (payload.createdAt !== undefined) {
+      const val: any = payload.createdAt;
+      const dateVal =
+        val instanceof Date ? val.toISOString() : String(payload.createdAt);
+      body.set('createdAt', dateVal);
+    }
+    if (payload.tags !== undefined) {
+      body.set('tags', JSON.stringify(payload.tags));
+    }
+
+    return this.http.post<any>(this.appsScriptUrl, body.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
+    });
+  }
+
 
 }

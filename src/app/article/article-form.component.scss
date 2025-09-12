@@ -6,6 +6,15 @@ form {
   margin: 24px auto;
 }
 
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 mat-form-field, mat-radio-group {
   width: 100%;
 }

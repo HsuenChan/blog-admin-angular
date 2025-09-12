@@ -4,7 +4,7 @@
   </button>
   <h2>新增文章</h2>
 </div>
-<form [formGroup]="form" (ngSubmit)="onSubmit()" [class.pointer-events-none]="isSubmitting">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" [style.pointer-events]="(isSubmitting || isGettingArticle) ? 'none' : 'auto'" [style.opacity]="(isSubmitting || isGettingArticle) ? 0.5 : 1">
   <mat-form-field appearance="outline">
     <mat-label>標題</mat-label>
     <input matInput formControlName="title" required />
@@ -30,11 +30,15 @@
     <mat-radio-button value="unpublished">不發佈</mat-radio-button>
   </mat-radio-group>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isSubmitting">
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || isSubmitting || isGettingArticle">
     <span *ngIf="!isSubmitting">{{ isEdit ? '更新文章' : '建立文章' }}</span>
     <span *ngIf="isSubmitting" class="flex items-center gap-x-2">
       <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
       處理中...
     </span>
   </button>
+   <div *ngIf="isGettingArticle" class="loading-overlay">
+    <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+    <div class="mt-3 text-sm text-gray-600">載入中…</div>
+  </div>
 </form>

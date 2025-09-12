@@ -40,6 +40,8 @@ export class ArticleFormComponent implements OnInit {
   isEdit = false;
   articleId?: string;
   isSubmitting = false;
+  isGettingArticle = false;
+  private snapshot: string | null = null; // 離開頁面防呆用
 
   constructor(
     private fb: FormBuilder,
@@ -57,18 +59,32 @@ export class ArticleFormComponent implements OnInit {
       status: ['draft', Validators.required]
     });
 
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      this.articleId = id ? id + '': undefined
-      // if (id) {
-      //   const article = this.articleService.getById(+id);
-      //   if (article) {
-      //     this.isEdit = true;
-      //     this.articleId = article.id;
-      //     this.form.patchValue(article);
-      //   }
-      // }
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    this.articleId = id ?? undefined;
+    this.isEdit = !!this.articleId;
+
+    if (this.isEdit && this.articleId) {
+      this.isGettingArticle = true;
+      this.gs.getById(this.articleId)
+        .pipe(finalize(() => (this.isGettingArticle = false)))
+        .subscribe({
+          next: (res: any) => {
+            const a = res?.data ?? res; // GAS 端回 { ok, data } 或直接 data 都能吃
+            this.form.patchValue({
+              title: a.title ?? '',
+              content: a.content ?? '',
+              tags: Array.isArray(a.tags) ? a.tags.join(', ') : (a.tags || ''),
+              status: a.status ?? 'draft'
+            });
+            this.snapshot = JSON.stringify(this.form.value);
+          },
+          error: (e) => {
+            console.error('讀取失敗', e);
+            alert('讀取文章失敗');
+          }
+        });
+    }
+
   }
 
   onSubmit() {
@@ -89,7 +105,15 @@ export class ArticleFormComponent implements OnInit {
       status: this.form.value.status || 'draft'
     };
     if (this.isEdit) {
-      this.articleService.update(article);
+      this.gs.update(article.id, article)
+      .pipe(finalize(() => this.isSubmitting = false))
+      .subscribe({
+        next: (res) => {
+          console.log('寫入成功', res);
+          this.router.navigate(['/article']);
+        },
+        error: (e) => console.error('寫入失敗', e),
+      });
     } else {
       this.gs.addArticleViaAppsScript(article)
       .pipe(finalize(() => this.isSubmitting = false))

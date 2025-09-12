@@ -36,7 +36,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let article">
-      <button mat-button matButton="filled" color="primary" (click)="onEdit(article.id)">Edit</button>
+      <button mat-button matButton="filled" color="primary" (click)="onEdit(article.id)" [disabled]="article?.id === deletingId">Edit</button>
       <button mat-button matButton="tonal" class="ml-2" (click)="onDelete(article)" [disabled]="article?.id === deletingId">
         <span *ngIf="article?.id !== deletingId">Delete</span>
         <span *ngIf="article?.id === deletingId" class="flex items-center gap-x-2">
