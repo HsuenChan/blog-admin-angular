@@ -29,10 +29,11 @@ BlogAdminAngular 是以 Angular（v20.1.4）打造的示範後台，包含文章
 ## Tech Stack｜技術堆疊
 
 - Angular 20.1.4（CLI）
+- node version 22
 - Angular Material
 - RxJS、Reactive Forms
 - Routing & Guards
-- **Google Sheets API（資料來源 / DB）**
+- Google Sheets API（資料來源 / DB）
 - 部署：GitHub Pages
 
 ---
@@ -42,6 +43,7 @@ BlogAdminAngular 是以 Angular（v20.1.4）打造的示範後台，包含文章
 ### 1) Development server｜本機開發
 
 ```bash
+nvm use 22
 ng serve
 # open http://localhost:4200/
 ```
