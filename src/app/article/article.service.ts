@@ -26,14 +26,14 @@ export class ArticleService {
   ];
   private articleSubject = new BehaviorSubject<Article[]>(this.articles);
 
-  getAll(): Observable<Article[]> {
-    return this.articleSubject.asObservable();
-  }
+  // getAll(): Observable<Article[]> {
+  //   return this.articleSubject.asObservable();
+  // }
 
-  delete(id: number) {
-    this.articles = this.articles.filter(a => a.id !== id);
-    this.articleSubject.next(this.articles);
-  }
+  // delete(id: number) {
+  //   this.articles = this.articles.filter(a => a.id !== id);
+  //   this.articleSubject.next(this.articles);
+  // }
 
   getById(id: number): Article | undefined {
     return this.articles.find(a => a.id === id);
@@ -47,8 +47,8 @@ export class ArticleService {
     }
   }
 
-  create(article: Article) {
-    this.articles.push(article);
-    this.articleSubject.next(this.articles);
-  }
+  // create(article: Article) {
+  //   this.articles.push(article);
+  //   this.articleSubject.next(this.articles);
+  // }
 }
